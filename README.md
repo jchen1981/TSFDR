@@ -54,6 +54,7 @@ We illustrate the usage of tsfdr package using simulated data.
 ```
      require(tsfdr)
      require(qvalue)
+     
      # Generate simulated data with 100 true positives out of 1000
      truth <- c(rep(1, 50), rep(0, 50), rep(1, 50), rep(0, 850))
      x <- rnorm(50)
