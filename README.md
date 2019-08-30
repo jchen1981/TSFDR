@@ -33,7 +33,9 @@ Then in R:
 install.packages("Rmosek", type="source", INSTALL_opts="--no-multiarch", 
 repos="http://download.mosek.com/R/8")
 ```
-### Install dependent packages "ggplot2", "reshape2", "doMC", "pbivnorm", "REBayes", "limma", "qvalue"
+### Install dependent packages 
+
+"ggplot2", "reshape2", "doMC", "pbivnorm", "REBayes", "limma", "qvalue"
 
 ```
 # install.packages(c("ggplot2", "reshape2", "doMC", "pbivnorm", "REBayes"))
