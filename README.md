@@ -5,8 +5,10 @@ Two-stage false discovery rate control for confounder adjustment in genomics stu
 The function implements the two-stage false discovery rate control for more powerful confounder adjustment in the analysis of genomic data. The method is based on the idea that the confounder(s) usually affect part of the genomic features, and thus adjusting the confounder(s) for ALL genomic features will be an over-adjustment, leading to reduced statistical power.  The two-step procedure starts with performing the unadjusted analysis (first step - filtering) to narrow down the list of genomic features which are more likely to be affected by either the confounder or the variable of interest or both. In the second step, we conduct adjusted analysis on these 'top' candidates to reduce multiple testing burden. In other words, the unadjusted p-values tell us about the probability of the null hypotheses being false, and the multiple testing can be focused on those promising hypotheses. The procedure is theoretically guaranteed to control the false discovery rate while maximizing the power of discovery.
 
 ## Installation 
+### Please install first mosek
 ```
-Please install first
+The following instruction was copied from
+https://gist.github.com/mikelove/67ea44d5be5a053e599257fe357483dc
 
 1) Download mosek from here:
 https://www.mosek.com/downloads/
@@ -29,12 +31,8 @@ export PKG_MOSEKLIB=mosek64
 
 Then in R:
 install.packages("Rmosek", type="source", INSTALL_opts="--no-multiarch", repos="http://download.mosek.com/R/8")
-
-
-The instruction above was copied from
-https://gist.github.com/mikelove/67ea44d5be5a053e599257fe357483dc
-
 ```
+### Install dependent packages "ggplot2", "reshape2", "doMC", "pbivnorm", "REBayes", "limma", "qvalue"
 
 ```
 # install.packages(c("ggplot2", "reshape2", "doMC", "pbivnorm", "REBayes"))
