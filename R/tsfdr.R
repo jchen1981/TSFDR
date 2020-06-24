@@ -401,7 +401,7 @@ tsfdr.plot <- function (tsfdr.obj, fdr.level = seq(0.01, 0.2, len = 20), nlimit 
 			data <- data[union(sample(1 : nrow(data), nlimit), which(data$Significant != 'None')), ]
 		}
 		
-		pdf(paste0(file.name, '.Zscore(5%FDR).pdf'), height = 5, width = 6)
+		pdf(paste0(file.name, '.Zscore(0.05FDR).pdf'), height = 5, width = 6)
 		obj <- ggplot(data, aes(x = Zu, y = Za, col = Significant)) + 
 				geom_point(alpha = 0.75, size = 0.2) +
 				ylab('Adjusted absolute Z-score') +
