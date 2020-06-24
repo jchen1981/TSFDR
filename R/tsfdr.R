@@ -371,9 +371,11 @@ tsfdr.plot <- function (tsfdr.obj, fdr.level = seq(0.01, 0.2, len = 20), nlimit 
 		data <- data[union(sample(1 : nrow(data), nlimit), which(data$fdr <= max(fdr.level))), ]
 	}
 	
+	cex.pt <- min(1 * nlimit / nrow(data), 2)
+			
 	pdf(paste0(file.name, '.Zscore.pdf'), height = 5, width = 6)
 	obj <- ggplot(data, aes(x = Zu, y = Za, col = fdr.cutoff)) + 
-			geom_point(alpha = 0.75, size = 0.2) +
+			geom_point(alpha = 0.75, size = cex.pt) +
 			ylab('Adjusted absolute Z-score') +
 			xlab('Unadjusted absolute Z-score') +
 			scale_color_gradient(low="darkred", high="orange", na.value = "grey50") +
@@ -403,13 +405,13 @@ tsfdr.plot <- function (tsfdr.obj, fdr.level = seq(0.01, 0.2, len = 20), nlimit 
 		
 		pdf(paste0(file.name, '.Zscore(0.05FDR).pdf'), height = 5, width = 6)
 		obj <- ggplot(data, aes(x = Zu, y = Za, col = Significant)) + 
-				geom_point(alpha = 0.75, size = 0.2) +
+				geom_point(alpha = 0.75, size = cex.pt) +
 				ylab('Adjusted absolute Z-score') +
 				xlab('Unadjusted absolute Z-score') +
 				geom_hline(yintercept = obj$t2, color = 'red') +
 				geom_vline(xintercept = obj$t1, color = 'red')
 		if (sum(pos2) >= 1) {
-			obj <- obj + geom_hline(yinercept = max(abs(tsfdr.obj$Za)[pos2]), color = 'blue')
+			obj <- obj + geom_hline(yintercept = min(abs(tsfdr.obj$Za)[pos2]), color = 'blue')
 		}
 		obj <- obj +
 				scale_color_manual(values = c("grey50", 'darkgreen', 'darkblue', 'darkred')) +
