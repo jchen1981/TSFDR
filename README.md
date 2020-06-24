@@ -7,24 +7,24 @@ The function implements the two-stage false discovery rate control for more powe
 ## Installation 
 ### Please install mosek first 
 
-** Following instruction is for Linux. For other systems, change names accordingly. **
+** Following instruction is for macOS. For other systems, change names accordingly. **
 
 
 ```
-The following instruction was copied from
+The following instruction was modified from
 https://gist.github.com/mikelove/67ea44d5be5a053e599257fe357483dc
 
 1) Download mosek from here (** please download version 8 **):
-https://www.mosek.com/downloads/
+https://www.mosek.com/downloads/list/8/
 (I downloaded this to my ~/bin)
 
 
 cd ~/bin
-tar -xvf mosektoolslinux64x86.tar.bz2
+tar -xvf mosektoolsosx64x86.tar.bz2
 
 
 2) Add this to your ~/.bashrc
-export PATH=$PATH:/home/username/bin/mosek/8/tools/platform/linux64x86/bin
+export PATH=$PATH:~/bin/mosek/8/tools/platform/osx64x86/bin
 (You need to use your own home directory instead of "/home/username")
 
 3) Get academic license:
@@ -34,12 +34,16 @@ Check email, put licsense file in ~/mosek
 
 4) Install:
 
-export PKG_MOSEKHOME=/home/username/bin/mosek/8/tools/platform/linux64x86
+export PKG_MOSEKHOME=~/bin/mosek/8/tools/platform/osx64x86
 export PKG_MOSEKLIB=mosek64
+
+(for macOS Catalina, you need to run "xattr -dr com.apple.quarantine mosek" to prevent security exceptions)
 
 Then in R:
 install.packages("Rmosek", type="source", INSTALL_opts="--no-multiarch", 
 repos="http://download.mosek.com/R/8")
+
+
 ```
 ### Install dependent packages 
 
