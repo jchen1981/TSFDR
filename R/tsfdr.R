@@ -390,32 +390,30 @@ tsfdr.plot <- function (tsfdr.obj, fdr.level = seq(0.01, 0.2, len = 20), nlimit 
 		
 		fdr <- rep('None', length(qval))
 		pos1 <- obj$pos
-		pos2 <- qval <= 0.05
 		
-		fdr[pos1 & !pos2] <- 'TSFDR'
-		fdr[!pos1 & pos2] <- 'OSFDR'
-		fdr[pos1 & pos2] <- 'Both'
-		
-		fdr <- factor(fdr, levels = c('None', 'Both', 'OSFDR', 'TSFDR'))
+		fdr[pos1] <- 'TSFDR'
+	
+		fdr <- factor(fdr, levels = c('None', 'TSFDR'))
 		
 		data <- data.frame(Zu = abs(tsfdr.obj$Zu), Za = abs(tsfdr.obj$Za),  Significant = fdr)
 		if (nrow(data) > nlimit) {
 			data <- data[union(sample(1 : nrow(data), nlimit), which(data$Significant != 'None')), ]
 		}
 		
-		pdf(paste0(file.name, '.Zscore(0.05FDR).pdf'), height = 5, width = 6)
+		pdf(paste0(file.name, '.Zscore(0.05FDR).pdf'), height = 5, width = 5)
 		obj <- ggplot(data, aes(x = Zu, y = Za, col = Significant)) + 
 				geom_point(alpha = 0.75, size = cex.pt) +
 				ylab('Adjusted absolute Z-score') +
 				xlab('Unadjusted absolute Z-score') +
 				geom_hline(yintercept = obj$t2, color = 'red') +
 				geom_vline(xintercept = obj$t1, color = 'red')
-		if (sum(pos2) >= 1) {
-			obj <- obj + geom_hline(yintercept = min(abs(tsfdr.obj$Za)[pos2]), color = 'blue')
-		}
+#		if (sum(pos2) >= 1) {
+#			obj <- obj + geom_hline(yintercept = min(abs(tsfdr.obj$Za)[pos2]), color = 'blue')
+#		}
 		obj <- obj +
-				scale_color_manual(values = c("grey50", 'darkgreen', 'darkblue', 'darkred')) +
-				theme_bw() 
+				scale_color_manual(values = c("grey50", 'darkred')) +
+				theme_bw() +
+				theme(legend.position = "none")
 		print(obj)
 		dev.off()
 		plot.list[['Zscore2']] <- obj
