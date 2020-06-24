@@ -279,7 +279,7 @@ tsfdr <- function (y,  x,  z,
 					p.value = lm.obj2$pval[, 2], mm = mm, pi0 = mean(pi0)))
 }
 
-tsfdr.select <- function (tsfdr.obj, fdr.level = 0.1) {
+tsfdr.select <- function (tsfdr.obj, fdr.level = 0.05) {
 	FDP <- tsfdr.obj$FDP
 	NP <- tsfdr.obj$NP
 	Zu <- tsfdr.obj$Zu
@@ -365,7 +365,7 @@ tsfdr.plot <- function (tsfdr.obj, fdr.level = seq(0.01, 0.2, len = 20), nlimit 
 	dev.off()
 	plot.list[['Hits']] <- obj
 	
-	data <- data.frame(Zu = tsfdr.obj$Zu, Za = tsfdr.obj$Za,  fdr.cutoff = fdr)
+	data <- data.frame(Zu = abs(tsfdr.obj$Zu), Za = abs(tsfdr.obj$Za),  fdr.cutoff = fdr)
 	
 	if (nrow(data) > nlimit) {
 		data <- data[union(sample(1 : nrow(data), nlimit), which(data$fdr <= max(fdr.level))), ]
@@ -374,14 +374,50 @@ tsfdr.plot <- function (tsfdr.obj, fdr.level = seq(0.01, 0.2, len = 20), nlimit 
 	pdf(paste0(file.name, '.Zscore.pdf'), height = 5, width = 6)
 	obj <- ggplot(data, aes(x = Zu, y = Za, col = fdr.cutoff)) + 
 			geom_point(alpha = 0.75, size = 0.2) +
-			ylab('Adjusted Z-score') +
-			xlab('Unadjusted Z-score') +
+			ylab('Adjusted absolute Z-score') +
+			xlab('Unadjusted absolute Z-score') +
 			scale_color_gradient(low="darkred", high="orange", na.value = "grey50") +
 			theme_bw()
 	print(obj)
 	dev.off()
+	plot.list[['Zscore1']] <- obj
+
+	obj <- tsfdr.select(tsfdr.obj, 0.05)
 	
-	plot.list[['Zscore']] <- obj
+	if(sum(obj$pos) != 0) {
+		
+		fdr <- rep('None', length(qval))
+		pos1 <- obj$pos1
+		pos2 <- qval <= 0.05
+		
+		fdr[pos1 & !pos2] <- 'TSFDR'
+		fdr[!pos1 & pos2] <- 'OSFDR'
+		fdr[pos1 & pos2] <- 'Both'
+		
+		fdr <- factor(fdr, levels = c('None', 'Both', 'OSFDR', 'TSFDR'))
+		
+		data <- data.frame(Zu = abs(tsfdr.obj$Zu), Za = abs(tsfdr.obj$Za),  Significant = fdr)
+		if (nrow(data) > nlimit) {
+			data <- data[union(sample(1 : nrow(data), nlimit), which(data$Significant != 'None')), ]
+		}
+		
+		pdf(paste0(file.name, '.Zscore(5%FDR).pdf'), height = 5, width = 6)
+		obj <- ggplot(data, aes(x = Zu, y = Za, col = Significant)) + 
+				geom_point(alpha = 0.75, size = 0.2) +
+				ylab('Adjusted absolute Z-score') +
+				xlab('Unadjusted absolute Z-score') +
+				geom_hline(yintercept = obj$t2, color = 'red') +
+				geom_vline(xintercept = obj$t1, color = 'red')
+		if (sum(pos2) >= 1) {
+			obj <- obj + geom_hline(yinercept = max(abs(tsfdr.obj$Za)[pos2]), color = 'blue')
+		}
+		obj <- obj +
+				scale_color_manual(values = c("grey50", 'darkgreen', 'darkblue', 'darkred')) +
+				theme_bw() 
+		print(obj)
+		dev.off()
+		plot.list[['Zscore2']] <- obj
+	}
 	
 	return(invisible(plot.list))
 }
