@@ -387,7 +387,7 @@ tsfdr.plot <- function (tsfdr.obj, fdr.level = seq(0.01, 0.2, len = 20), nlimit 
 	if(sum(obj$pos) != 0) {
 		
 		fdr <- rep('None', length(qval))
-		pos1 <- obj$pos1
+		pos1 <- obj$pos
 		pos2 <- qval <= 0.05
 		
 		fdr[pos1 & !pos2] <- 'TSFDR'
