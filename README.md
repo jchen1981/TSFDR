@@ -36,7 +36,7 @@ Check email, put licsense file in ~/mosek
 export PKG_MOSEKHOME=~/bin/mosek/8/tools/platform/osx64x86
 export PKG_MOSEKLIB=mosek64
 
-5) For macOS Catalina, you need to run "xattr -dr com.apple.quarantine mosek" to prevent security exceptions.
+5) For macOS Catalina, run "xattr -dr com.apple.quarantine mosek" to prevent security exceptions.
 
 Then in R:
 install.packages("Rmosek", type="source", INSTALL_opts="--no-multiarch", 
