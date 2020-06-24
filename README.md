@@ -25,7 +25,6 @@ tar -xvf mosektoolsosx64x86.tar.bz2
 
 2) Add this to your ~/.bashrc
 export PATH=$PATH:~/bin/mosek/8/tools/platform/osx64x86/bin
-(You need to use your own home directory instead of "/home/username")
 
 3) Get academic license:
 https://www.mosek.com/products/academic-licenses/
@@ -37,7 +36,7 @@ Check email, put licsense file in ~/mosek
 export PKG_MOSEKHOME=~/bin/mosek/8/tools/platform/osx64x86
 export PKG_MOSEKLIB=mosek64
 
-(for macOS Catalina, you need to run "xattr -dr com.apple.quarantine mosek" to prevent security exceptions)
+5) For macOS Catalina, you need to run "xattr -dr com.apple.quarantine mosek" to prevent security exceptions.
 
 Then in R:
 install.packages("Rmosek", type="source", INSTALL_opts="--no-multiarch", 
