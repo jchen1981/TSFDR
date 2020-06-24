@@ -18,10 +18,8 @@ https://gist.github.com/mikelove/67ea44d5be5a053e599257fe357483dc
 https://www.mosek.com/downloads/list/8/
 (I downloaded this to my ~/bin)
 
-
 cd ~/bin
 tar -xvf mosektoolsosx64x86.tar.bz2
-
 
 2) Add this to your ~/.bashrc
 export PATH=$PATH:~/bin/mosek/8/tools/platform/osx64x86/bin
@@ -36,7 +34,8 @@ Check email, put licsense file in ~/mosek
 export PKG_MOSEKHOME=~/bin/mosek/8/tools/platform/osx64x86
 export PKG_MOSEKLIB=mosek64
 
-5) For macOS Catalina, run "xattr -dr com.apple.quarantine mosek" to prevent security exceptions.
+5) For macOS Catalina, run "xattr -dr com.apple.quarantine mosek" to 
+prevent security exceptions.
 
 Then in R:
 install.packages("Rmosek", type="source", INSTALL_opts="--no-multiarch", 
